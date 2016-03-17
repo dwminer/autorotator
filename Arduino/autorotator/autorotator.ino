@@ -4,6 +4,7 @@
 #define XPIN  A0
 #define YPIN  A1
 #define ZPIN  A2
+
 /*
  * Turning a normally oriented screen clockwise correponds to 
  * RR_Rotate_90
@@ -21,7 +22,7 @@
 int vals[3]; //x,y,z
 float scaledVals[3];
 int x, y;
-int current_rotation, new_rotation;
+char rotation;
 int i;
 float scaledX;
 
@@ -50,23 +51,33 @@ void loop() {
   
   x = round(scaledVals[0]);
   y = round(scaledVals[1]);
-  if (x == 0 && y == -1)
-    new_rotation = RR_Rotate_0;
-  else if (x == -1 && y == 0)
-    new_rotation = RR_Rotate_90;
-  else if (x == 0 && y == 1)
-    new_rotation = RR_Rotate_180;
-  else if (x == 1 && y == 0)
-    new_rotation = RR_Rotate_270;
-
-  if (current_rotation != new_rotation)
+  
+  if (adjustRotation(&rotation, x, y))
   {
-    current_rotation = new_rotation;
-    Serial.print(new_rotation);
-    Serial.print("\n");
+    Serial.write(rotation);
   }
 
   delay(500);
+}
+
+/*
+ * Store the new rotation value in current_rotation
+ * Return TRUE if the value was changed, else FALSE
+ */
+char adjustRotation(char *current_rotation, int x, int y)
+{
+  int old_rotation = *current_rotation;
+  
+  if (x == 0 && y == -1)
+    *current_rotation = RR_Rotate_0;
+  else if (x == -1 && y == 0)
+    *current_rotation = RR_Rotate_90;
+  else if (x == 0 && y == 1)
+    *current_rotation = RR_Rotate_180;
+  else if (x == 1 && y == 0)
+    *current_rotation = RR_Rotate_270;
+
+  return (old_rotation != *current_rotation);
 }
 
 float mapf(long x, long in_min, long in_max, float out_min, float out_max)
