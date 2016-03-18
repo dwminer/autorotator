@@ -35,7 +35,8 @@ void setup() {
   vals[0] = analogRead(XPIN);
   vals[1] = analogRead(YPIN);
   vals[2] = analogRead(ZPIN);
-  
+
+  rotation = 0;
 }
 
 void loop() {
