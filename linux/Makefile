@@ -1,19 +1,19 @@
 include config.mk
 
-SRC = rotator.c
+SRC = autorotator.c
 OBJ = ${SRC:.c=.o}
 
-all: rotator
+all: autorotator
 
 .c.o:
 	@echo ${CC} $<
 	@${CC} -c ${CFLAGS} $<
 
-${OBJ}: rotate.h
+${OBJ}: ar_rotate.h ar_serial.h
 
 rotator: ${OBJ}
 	@echo ${CC} $<
 	@${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	@rm -f rotator ${OBJ}
+	@rm -f autorotator ${OBJ}
