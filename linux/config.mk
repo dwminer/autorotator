@@ -7,6 +7,6 @@ INCS = -I${X11INC}
 LIBS = -L${X11LIB} -lX11 -lXrandr
 
 CFLAGS = -Wall -Os ${INCS}
-LDFLAGS = -s ${LIBS}
+LDFLAGS = ${LIBS}
 
 CC = gcc

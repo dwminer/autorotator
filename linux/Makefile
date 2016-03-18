@@ -5,6 +5,9 @@ OBJ = ${SRC:.c=.o}
 
 all: autorotator
 
+debug: CFLAGS += -g
+debug: all
+
 .c.o:
 	@echo ${CC} $<
 	@${CC} -c ${CFLAGS} $<
